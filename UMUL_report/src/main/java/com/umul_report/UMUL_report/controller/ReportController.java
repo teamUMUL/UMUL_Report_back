@@ -6,7 +6,7 @@ import com.umul_report.UMUL_report.service.FeedbackService;
 import com.umul_report.UMUL_report.service.ReportServiceImpl;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@RestController("/umul")
 public class ReportController {
 
     private final ReportServiceImpl umulServiceImpl;
@@ -18,8 +18,8 @@ public class ReportController {
         this.feedbackService = feedbackService;
     }
 
-    @PostMapping("/umul")
-    public Report reportData(Member member){
+    @PostMapping("/report")
+    public Report ReportData(@RequestParam Member member){
 
         Report report = new Report();
 
@@ -28,7 +28,7 @@ public class ReportController {
         int totalTimeBySecond = umulServiceImpl.getTotalTimeSecondByMemberEmail(member.getMemberEmail()); //총 식사시간(~초)(피드백에 사용)
         String totalTime = umulServiceImpl.getTotalTimeByMemberEmail(member.getMemberEmail()); //총 식사시간(~분 ~초)
         int avgABiteCnt = umulServiceImpl.getAvgABiteCntByMemberEmail(member.getMemberEmail()); //한 입당 평균 저작횟수
-        String nickname = umulServiceImpl.getNickNameByMemberEmail(member.getMemberEmail()); //닉네임
+        String nickname = member.getNickname(); //닉네임
 
         //닉네임
         report.setNickname(nickname);
